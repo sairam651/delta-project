@@ -99,6 +99,7 @@ app.use((req,res,next)=>{
     next();
 })
 
+
 // app.get("/demouser",async(req,res)=>{
 //     let fakeUser=new User({
 //         email:"student@gamil.com",
@@ -109,6 +110,11 @@ app.use((req,res,next)=>{
 //      res.send(registeredUser);
 // })
 
+
+app.get("/",(req,res)=>{
+    res.redirect("/listings")
+})
+
 app.use("/listings",listingRouter);
 app.use("/listings/:id/reviews",reviewRouter);
 app.use("/",userRouter)
@@ -118,9 +124,8 @@ app.use((req,res,next)=>{
     next(new ExpressError(404,"Page not found!"))
 });
 
-app.use((err,req,res,next)=>{
-    let {statusCode=500,message="Something went Wrong!"}=err;
-    res.status(statusCode).send(message);
+app.use((req,res,next)=>{
+    next(new ExpressError(404,"Page not found!"))
 });
 
 app.listen(8080,()=>{
